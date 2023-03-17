@@ -113,7 +113,7 @@ function addRole() {
         message: "Enter New Role Title: ",
         name: "NewRole"
     }).then(res => {
-        db.query(`INSERT INTO role(name) VALUES ("${res.NewRole}");`, (err,res) =>{
+        db.query(`INSERT INTO role(job_title) VALUES ("${res.NewRole}");`, (err,res) =>{
             if (err) throw err
             console.table(res)
             return init()
@@ -125,18 +125,33 @@ function addRole() {
 // start prompt to add new employee
 function addEmployee() {
     inquirer.prompt({
-        message: "Enter New Employee Name: ",
-        name: "NewEmp"
-    }).then(res => {
-        db.query(`INSERT INTO employee(name) VALUES ("${res.NewEmp}");`, (err,res) =>{
-            if (err) throw err
-            console.table(res)
-            return init()
-    })
-    })
-}
-
-// start prompt to update an employee's role 
+        message: "Enter New Employee First Name: ",
+        name: "NewEmpFN"
+    },
+    {
+        name: "NewEmpLN",
+        message: "Enter New Employee Last Name: "
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: "New Employee's Role: ",
+        choices: [1, 2, 3, 4]
+    },
+    {
+        type: 'list',
+        name: 'manager',
+        message: "New Employee's Manager: ",
+        choices: [1, 2, 3, 4, 5, 6]
+    }
+    // ).then(res => {
+    //     db.query(`INSERT INTO employee(set) VALUES ("${res.NewEmpFN}", "${res.NewEmpLN", "${res.role}", "${res.manager}");`, (err,res) =>{
+    //         if (err) throw err
+    //         console.table(res)
+    //         return init()
+    // })
+    // })
+},
 
 
 //exit process when Quit is selected
