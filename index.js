@@ -122,7 +122,19 @@ function addRole() {
 }
 
 
-// start prompt to add new employeed
+// start prompt to add new employee
+function addEmployee() {
+    inquirer.prompt({
+        message: "Enter New Employee Name: ",
+        name: "NewEmp"
+    }).then(res => {
+        db.query(`INSERT INTO employee(name) VALUES ("${res.NewEmp}");`, (err,res) =>{
+            if (err) throw err
+            console.table(res)
+            return init()
+    })
+    })
+}
 
 // start prompt to update an employee's role 
 
