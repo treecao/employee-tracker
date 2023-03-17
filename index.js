@@ -65,6 +65,8 @@ function init(){
 //       })
 //       .then(() => loadMainPrompts());
 //   }
+
+// show list of all departments
 function viewDepartments() {
     db.query(`SELECT * FROM department`, (err,res) =>{
         if (err) throw err
@@ -73,6 +75,7 @@ function viewDepartments() {
     })
 }
 
+//show list of all roles
 function viewRoles() {
     db.query(`SELECT * FROM role`, (err,res) =>{
         if (err) throw err
@@ -81,6 +84,7 @@ function viewRoles() {
     })
 }
 
+// show list of all employees currently in DBd
 function viewEmployees() {
     db.query(`SELECT * FROM employee`, (err,res) =>{
         if (err) throw err
@@ -89,6 +93,7 @@ function viewEmployees() {
     })
 }
 
+//starts prompts to add new department
 function addDepartment() {
     inquirer.prompt({
         message: "Enter Department Name: ",
@@ -102,6 +107,27 @@ function addDepartment() {
     })
 }
 
+// start prompt to add a new role
+function addRole() {
+    inquirer.prompt({
+        message: "Enter New Role Title: ",
+        name: "NewRole"
+    }).then(res => {
+        db.query(`INSERT INTO role(name) VALUES ("${res.NewRole}");`, (err,res) =>{
+            if (err) throw err
+            console.table(res)
+            return init()
+    })
+    })
+}
+
+
+// start prompt to add new employeed
+
+// start prompt to update an employee's role 
+
+
+//exit process when Quit is selected
 function Quit() {
     process.exit()
 }
