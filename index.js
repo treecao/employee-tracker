@@ -11,7 +11,8 @@ const db=mysql.createConnection(
         password: process.env.PW,
         database: "tracker_db",
         port: 3306
-    }
+    },
+    console.log('connected to tracker_db database')
 );
 
 //check for error
@@ -22,49 +23,37 @@ db.connect((err)=>{
 //start application & prompt users with questions
 function init(){
     inquirer
-    .prompt({
-        type: "list",
-        name: "options",
-        message: "something",
-        choices: ["View all Departments", "View all Roles", "View all Employees", "Add a Department", "Add a Role", "Add an Employee", "Update an employee role", "Quit"]
-    })
-    .then((res)=>{
-        switch(res.options){
-            case 'View all Departments':
-                viewDepartments();
-                break;
-            case 'View all Roles':
-                viewRoles();
-                break;
-            case 'View all Employees':
-                viewEmployees();
-                break;
-            case 'Add a Department':
-                addDepartment();
-                break;
-            case 'Add a Role':
-                addRole();
-                break;
-            case 'Add an Employee':
-                addEmployee();
-                break;
-            case 'Update an employee role':
-                updateEmployee();
-                break;                
+    .prompt([
+        {
+            type: "list",
+            message: "Please select from the following options",
+            name: "initialize",
+            choices: ["View all departments", "View all roles", "View all employees", "Add a department", "Add a role", "Add an employee", "Update an employee role", "Done"]
         }
-    })
+    ]).then(ans => {
+        switch (ans.initialize) {
+            case "View all departments": viewDepartments();
+                break;
+            case "View all roles": viewRoles();
+                break;
+            case "View all employees": viewEmployees();
+                break;
+            case "Add a department": addDepartment();
+                break;
+            case "Add a role": addRole();
+                break;
+            case "Add an employee": addEmployee();
+                break;
+            case "Update an employee role": updateEmployee();
+                break;
+            case "Done":
+                console.log("Completed!");
+                process.exit();
+        }
+    }).catch(err => console.error(err));
 }
 
-// View all employees
-// function viewEmployees() {con
-//     db.findAllEmployees()
-//       .then(([rows]) => {
-//         let employees = rows;
-//         console.log("\n");
-//         console.table(employees);
-//       })
-//       .then(() => loadMainPrompts());
-//   }
+init();
 
 // show list of all departments
 function viewDepartments() {
@@ -123,35 +112,35 @@ function addRole() {
 
 
 // start prompt to add new employee
-function addEmployee() {
-    inquirer.prompt({
-        message: "Enter New Employee First Name: ",
-        name: "NewEmpFN"
-    },
-    {
-        name: "NewEmpLN",
-        message: "Enter New Employee Last Name: "
-    },
-    {
-        type: 'list',
-        name: 'role',
-        message: "New Employee's Role: ",
-        choices: [1, 2, 3, 4]
-    },
-    {
-        type: 'list',
-        name: 'manager',
-        message: "New Employee's Manager: ",
-        choices: [1, 2, 3, 4, 5, 6]
-    }
-    // ).then(res => {
-    //     db.query(`INSERT INTO employee(set) VALUES ("${res.NewEmpFN}", "${res.NewEmpLN", "${res.role}", "${res.manager}");`, (err,res) =>{
-    //         if (err) throw err
-    //         console.table(res)
-    //         return init()
-    // })
-    // })
-},
+// function addEmployee() {
+//     inquirer.prompt({
+//         message: "Enter New Employee First Name: ",
+//         name: "NewEmpFN"
+//     },
+//     {
+//         name: "NewEmpLN",
+//         message: "Enter New Employee Last Name: "
+//     },
+//     {
+//         type: 'list',
+//         name: 'role',
+//         message: "New Employee's Role: ",
+//         choices: [1, 2, 3, 4]
+//     },
+//     {
+//         type: 'list',
+//         name: 'manager',
+//         message: "New Employee's Manager: ",
+//         choices: [1, 2, 3, 4, 5, 6]
+//     }
+//     // ).then(res => {
+//     //     db.query(`INSERT INTO employee(set) VALUES ("${res.NewEmpFN}", "${res.NewEmpLN", "${res.role}", "${res.manager}");`, (err,res) =>{
+//     //         if (err) throw err
+//     //         console.table(res)
+//     //         return init()
+//     // })
+//     // })
+// },
 
 
 //exit process when Quit is selected
