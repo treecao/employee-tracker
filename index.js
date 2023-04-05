@@ -166,10 +166,10 @@ function addEmployee() {
     })
 };
 
-function updateEmployee() {
-    const res = db.query(`SELECT * FROM employees`)
-    console.table(res[0])
-    const emp = res[0]
+async function updateEmployee() {
+    const results = await db.promise().query(`SELECT * FROM employees`)
+    console.table(results[0])
+    const emp = results[0]
     let employeeList = []
     emp.forEach(employees => {
         employeeList.push({
@@ -177,7 +177,7 @@ function updateEmployee() {
             value: employees.id
         })
     });
-    const answer = inquirer.prompt([
+    const answer = await inquirer.prompt([
         {
             type: 'list',
             name: 'employeeId',
@@ -186,7 +186,7 @@ function updateEmployee() {
         }
     ])
     
-    const roles = db.query(`SELECT * FROM roles`);
+    const roles = await db.promise().query(`SELECT * FROM roles`);
     console.table(roles[0]);
     const rol = roles[0]
     const rolesList = rol.map(roles => ({
@@ -196,14 +196,14 @@ function updateEmployee() {
         }));
 
     const employeeId = answer.employeeId;
-    const ans = inquirer.prompt([
+    const ans = await inquirer.prompt([
         {
             type: 'list',
-            name: 'role',
+            name: 'roles',
             message: 'Which role would you like to update the employee to?',
             choices: rolesList
         },
     ])
-    connection.query(`UPDATE employees SET roles_id = '${ans.roles}' where employees.id = ${employeeId}`);
-    init()
+    db.query(`UPDATE employees SET role_id = '${ans.roles}' where employees.id = ${employeeId}`);
+    init();
 };
