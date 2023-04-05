@@ -1,7 +1,7 @@
 {
   "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "An employee tracker created through CLI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,8 +12,8 @@
     "url": "git+https://github.com/treecao/employee-tracker.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Tree",
+  "license": "MIT",
   "dependencies": {
     "console.table": "^0.10.0",
     "dotenv": "^16.0.3",
@@ -23,5 +23,6 @@
   "bugs": {
     "url": "https://github.com/treecao/employee-tracker/issues"
   },
-  "homepage": "https://github.com/treecao/employee-tracker#readme"
+  "homepage": "https://github.com/treecao/employee-tracker#readme",
+  "devDependencies": {}
 }

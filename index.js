@@ -1,12 +1,12 @@
 const mysql = require("mysql2");
-const cTable = require("console.table");
+const cTable = require('console.table');
 const inquirer = require("inquirer");
 require("dotenv").config();
 
 //connect to db
 const db=mysql.createConnection(
     {
-        host: "127.0.0.1",
+        host: "localhost",
         user: "root",
         password: process.env.PW,
         database: "tracker_db",
@@ -173,4 +173,4 @@ function addEmployee() {
 // }
   
 
-init()
+// init()
