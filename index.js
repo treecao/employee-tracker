@@ -62,25 +62,25 @@ function viewDepartments() {
         console.table(res)
         return init()
     })
-}
+};
 
 //show list of all roles
 function viewRoles() {
-    db.query(`SELECT * FROM role`, (err,res) =>{
+    db.query(`SELECT * FROM roles`, (err,res) =>{
         if (err) throw err
         console.table(res)
         return init()
     })
-}
+};
 
 // show list of all employees currently in DBd
 function viewEmployees() {
-    db.query(`SELECT * FROM employee`, (err,res) =>{
+    db.query(`SELECT * FROM employees`, (err,res) =>{
         if (err) throw err
         console.table(res)
         return init()
     })
-}
+};
 
 //starts prompts to add new department
 function addDepartment() {
@@ -95,7 +95,7 @@ function addDepartment() {
             return init()
     })
     })
-}
+};
 
 // start prompt to add a new role
 function addRole() {
@@ -164,13 +164,46 @@ function addEmployee() {
         }
         )
     })
-}
+};
 
+function updateEmployee() {
+    const res = db.query(`SELECT * FROM employees`)
+    console.table(res[0])
+    const emp = res[0]
+    let employeeList = []
+    emp.forEach(employees => {
+        employeeList.push({
+            name: employees.first_name + ", " + employees.last_name,
+            value: employees.id
+        })
+    });
+    const answer = inquirer.prompt([
+        {
+            type: 'list',
+            name: 'employeeId',
+            message: 'Which employee role do you want to update?',
+            choices: employeeList
+        }
+    ])
+    
+    const roles = db.query(`SELECT * FROM roles`);
+    console.table(roles[0]);
+    const rol = roles[0]
+    const rolesList = rol.map(roles => ({
+        
+            name: roles.title + ", " + roles.salary,
+            value: roles.id
+        }));
 
-// //exit process when Done is selected
-// function Done() {
-//     process.exit()
-// }
-  
-
-// init()
+    const employeeId = answer.employeeId;
+    const ans = inquirer.prompt([
+        {
+            type: 'list',
+            name: 'role',
+            message: 'Which role would you like to update the employee to?',
+            choices: rolesList
+        },
+    ])
+    connection.query(`UPDATE employees SET roles_id = '${ans.roles}' where employees.id = ${employeeId}`);
+    init()
+};
